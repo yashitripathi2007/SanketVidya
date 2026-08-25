@@ -1,0 +1,27 @@
+{
+  "name": "સંકેતવિદ્યા",
+  "short_name": "SanketVidya",
+  "description": "Indian Sign Language Learning App for Gujarati-medium Schools",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0e17",
+  "theme_color": "#4f46e5",
+  "orientation": "any",
+  "lang": "gu",
+  "icons": [
+    {
+      "src": "/icons/icon-192.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "categories": ["education"]
+}

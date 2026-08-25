@@ -1,0 +1,361 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+Gujarati:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap');
+
+/* ─── Design Tokens ───────────────────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --primary:        #1B2A6B;
+  --primary-light:  #2E42A0;
+  --primary-dark:   #111C4E;
+  --primary-50:     #EEF1FA;
+  --primary-100:    #D5DCF5;
+
+  /* Accent — Kesar Orange */
+  --accent:         #F2994A;
+  --accent-hover:   #E07E2C;
+  --accent-light:   #FEF0E3;
+
+  /* Semantic */
+  --success:        #2F9E68;
+  --success-light:  #E6F7EF;
+  --success-dark:   #1E7A4F;
+  --error:          #F96167;
+  --error-light:    #FEE8E9;
+  --error-dark:     #D93E44;
+  --warning:        #F59E0B;
+  --warning-light:  #FEF3C7;
+
+  /* Surfaces — Light Theme */
+  --bg:             #F0F6FB;
+  --bg-card:        #FFFFFF;
+  --bg-card-hover:  #F5F9FF;
+  --bg-elevated:    #E8F1FA;
+  --bg-overlay:     rgba(27,42,107,0.06);
+
+  /* Text */
+  --text-primary:   #1B2A6B;
+  --text-body:      #2D3748;
+  --text-secondary: #4A5568;
+  --text-muted:     #718096;
+  --text-on-dark:   #FFFFFF;
+
+  /* Borders */
+  --border:         rgba(27,42,107,0.12);
+  --border-strong:  rgba(27,42,107,0.25);
+  --border-focus:   #1B2A6B;
+
+  /* Shadows */
+  --shadow-xs:  0 1px 3px rgba(27,42,107,0.08);
+  --shadow-sm:  0 2px 8px rgba(27,42,107,0.10);
+  --shadow-md:  0 4px 20px rgba(27,42,107,0.12);
+  --shadow-lg:  0 8px 40px rgba(27,42,107,0.15);
+  --shadow-accent: 0 4px 20px rgba(242,153,74,0.35);
+
+  /* Radii */
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+  --radius-2xl:  36px;
+  --radius-full: 9999px;
+
+  /* Motion */
+  --transition:      0.18s cubic-bezier(0.4,0,0.2,1);
+  --transition-slow: 0.35s cubic-bezier(0.4,0,0.2,1);
+
+  /* Module colors — vibrant on light bg */
+  --mod-alphabets: #4F46E5;
+  --mod-numbers:   #D97706;
+  --mod-words:     #059669;
+  --mod-math:      #DB2777;
+  --mod-science:   #0891B2;
+  --mod-converter: #7C3AED;
+}
+
+/* ─── Motion Preference ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Base Reset ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-body);
+  font-family: 'Noto Sans', 'Noto Sans Gujarati', 'Noto Sans Devanagari', system-ui, sans-serif;
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Typography ──────────────────────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: 'Baloo 2', 'Noto Sans Gujarati', 'Noto Sans Devanagari', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.font-display { font-family: 'Baloo 2', 'Noto Sans Gujarati', 'Noto Sans Devanagari', sans-serif; }
+.font-body    { font-family: 'Noto Sans', 'Noto Sans Gujarati', 'Noto Sans Devanagari', sans-serif; }
+
+/* ─── Focus Ring (Accessibility) ──────────────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+button:focus-visible, a:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* ─── Cards ───────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+.card-elevated {
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+/* ─── Module Tile (large tappable) ───────────────────────────────────────── */
+.module-tile {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-xl);
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 12px;
+  cursor: pointer;
+  transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+.module-tile:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.module-tile:active { transform: translateY(-1px); }
+
+/* ─── Buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 24px;
+  height: 48px;
+  min-width: 44px;
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: 'Noto Sans', 'Noto Sans Gujarati', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: var(--shadow-accent);
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 6px 24px rgba(242,153,74,0.45);
+  transform: translateY(-2px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-indigo {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(27,42,107,0.25);
+}
+.btn-indigo:hover {
+  background: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1.5px solid var(--border-strong);
+}
+.btn-secondary:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  height: 44px;
+}
+.btn-ghost:hover { color: var(--text-primary); background: var(--bg-overlay); }
+
+.btn-danger {
+  background: var(--error-light);
+  color: var(--error-dark);
+  border: 1.5px solid rgba(249,97,103,0.3);
+}
+.btn-danger:hover { background: rgba(249,97,103,0.2); }
+
+.btn-sm { padding: 0 16px; height: 40px; font-size: 13px; }
+.btn-lg { padding: 0 40px; height: 56px; font-size: 17px; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ─── Inputs ──────────────────────────────────────────────────────────────── */
+.input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  color: var(--text-body);
+  font-family: 'Noto Sans', 'Noto Sans Gujarati', sans-serif;
+  font-size: 15px;
+  padding: 14px 16px;
+  height: 50px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  outline: none;
+}
+.input::placeholder { color: var(--text-muted); }
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(27,42,107,0.15);
+}
+textarea.input { resize: vertical; min-height: 100px; height: auto; }
+
+/* ─── Badge ───────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.badge-student  { background: var(--primary-50);   color: var(--primary); }
+.badge-teacher  { background: var(--accent-light);  color: var(--accent-hover); }
+.badge-parent   { background: var(--success-light); color: var(--success-dark); }
+.badge-success  { background: var(--success-light); color: var(--success-dark); }
+.badge-error    { background: var(--error-light);   color: var(--error-dark); }
+
+/* ─── Feedback Panels (icon + color always together) ──────────────────────── */
+.feedback-correct {
+  background: var(--success-light);
+  border: 2px solid var(--success);
+  border-radius: var(--radius-md);
+  color: var(--success-dark);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+.feedback-wrong {
+  background: var(--error-light);
+  border: 2px solid var(--error);
+  border-radius: var(--radius-md);
+  color: var(--error-dark);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+.feedback-icon { font-size: 24px; flex-shrink: 0; line-height: 1; }
+
+/* ─── Progress Ring ───────────────────────────────────────────────────────── */
+.progress-ring circle { transition: stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1); }
+
+/* ─── Animations ──────────────────────────────────────────────────────────── */
+@keyframes fadeIn  { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes spin    { to { transform: rotate(360deg); } }
+@keyframes float   { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes wave    { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } }
+@keyframes scalePop { 0% { transform: scale(0.85); opacity: 0; } 70% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+
+.animate-fade-in  { animation: fadeIn  0.4s ease forwards; }
+.animate-slide-up { animation: slideUp 0.4s ease forwards; }
+.animate-float    { animation: float   3s ease-in-out infinite; }
+.animate-wave     { animation: wave    1.5s ease-in-out infinite; }
+.animate-spin     { animation: spin    0.8s linear infinite; }
+.animate-pop      { animation: scalePop 0.35s ease forwards; }
+
+/* ─── Page Background ─────────────────────────────────────────────────────── */
+.page-bg {
+  background:
+    radial-gradient(ellipse at 10% 0%,  rgba(27,42,107,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 90%, rgba(242,153,74,0.06) 0%, transparent 55%),
+    var(--bg);
+  min-height: 100vh;
+}
+
+/* ─── Nav background ──────────────────────────────────────────────────────── */
+.nav-bg {
+  background: var(--primary);
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-elevated); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-light); }
+
+/* ─── Utility ─────────────────────────────────────────────────────────────── */
+.w-full    { width: 100%; }
+.text-center { text-align: center; }
+.truncate  { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.text-muted    { color: var(--text-muted); }
+.text-secondary { color: var(--text-secondary); }
+.text-primary-brand { color: var(--text-primary); }
+.rounded-full { border-radius: 9999px; }
+/* Flex */
+.flex-center  { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+/* Spacing */
+.mt-2 { margin-top: 8px; }  .mt-3 { margin-top: 12px; } .mt-4 { margin-top: 16px; }
+.mt-6 { margin-top: 24px; } .mt-8 { margin-top: 32px; }
+.mb-2 { margin-bottom: 8px; } .mb-4 { margin-bottom: 16px; } .mb-6 { margin-bottom: 24px; }
+.gap-1 { gap: 4px; } .gap-2 { gap: 8px; } .gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; } .gap-6 { gap: 24px; } .gap-8 { gap: 32px; }
+.p-4 { padding: 16px; } .p-6 { padding: 24px; } .p-8 { padding: 32px; }
+/* Size */
+.text-xs  { font-size: 12px; } .text-sm  { font-size: 14px; }
+.text-lg  { font-size: 18px; } .text-xl  { font-size: 22px; }
+.text-2xl { font-size: 28px; } .text-3xl { font-size: 36px; }
+.font-medium   { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold     { font-weight: 700; }
+.font-extrabold { font-weight: 800; }

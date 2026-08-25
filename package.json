@@ -1,0 +1,11 @@
+{
+  "name": "sanket-vidya",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix sanket-vidya",
+    "build": "npm run build --prefix sanket-vidya",
+    "start": "npm run start --prefix sanket-vidya",
+    "lint": "npm run lint --prefix sanket-vidya"
+  }
+}
