@@ -6,7 +6,6 @@ export const metadata = {
   title: "સંકેતવિદ્યા — ISL Learning App",
   description: "Indian Sign Language learning app for deaf and mute students in Gujarati-medium schools.",
   manifest: "/manifest.json",
-  themeColor: "#1B2A6B",
   keywords: ["ISL", "Indian Sign Language", "Gujarati", "deaf", "mute", "education", "learning"],
   openGraph: {
     title: "સંકેતવિદ્યા",

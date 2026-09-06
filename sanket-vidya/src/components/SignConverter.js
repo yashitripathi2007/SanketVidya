@@ -22,13 +22,13 @@ export default function SignConverter() {
     const items = [];
     for (const w of words) {
       if (w.type === "direct" && w.videoUrl) {
-        items.push({ label: w.word, videoUrl: w.videoUrl, type: "word" });
+        items.push({ label: w.word, videoUrl: w.videoUrl, type: "word", emoji: w.emoji || "🤟" });
       } else if (w.type === "spelled") {
         for (const l of w.letters) {
           if (l.videoUrl) {
-            items.push({ label: l.char, videoUrl: l.videoUrl, type: "letter", parentWord: w.word });
+            items.push({ label: l.char, videoUrl: l.videoUrl, type: "letter", parentWord: w.word, emoji: l.emoji || "🔤" });
           } else {
-            items.push({ label: l.char, videoUrl: null, type: "unknown", parentWord: w.word });
+            items.push({ label: l.char, videoUrl: null, type: "unknown", parentWord: w.word, emoji: "❓" });
           }
         }
       }
@@ -60,7 +60,7 @@ export default function SignConverter() {
 
   const toggleMic = useCallback(() => {
     if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
-      alert("તમારો બ્રાઉઝર speech recognition ને support નથી કરતો.");
+      alert(t("speechUnsupported"));
       return;
     }
     if (isListening) {
@@ -193,28 +193,41 @@ export default function SignConverter() {
             ))}
           </div>
 
-          {/* Current video */}
-          <div style={{ position: "relative" }}>
-            <div style={{
-              position: "absolute",
-              top: 16,
-              left: 16,
-              zIndex: 10,
-              background: "var(--primary)",
-              border: "1px solid rgba(255,255,255,0.2)",
-              borderRadius: "var(--radius-full)",
-              padding: "6px 18px",
-              fontSize: 16,
-              fontWeight: 800,
-              color: "#FFFFFF",
-              boxShadow: "var(--shadow-sm)"
-            }}>
-              {currentItem?.label}
+          {/* Current Word/Letter Banner */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
+            color: "#FFFFFF",
+            padding: "10px 18px",
+            borderRadius: "var(--radius-md)",
+            marginBottom: 12,
+            boxShadow: "var(--shadow-xs)",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 22 }}>{currentItem?.emoji || "🤟"}</span>
+              <span style={{ fontSize: 18, fontWeight: 800 }}>{currentItem?.label}</span>
+              {currentItem?.type === "letter" && (
+                <span style={{ fontSize: 12, opacity: 0.85, background: "rgba(255,255,255,0.2)", padding: "2px 8px", borderRadius: "var(--radius-full)" }}>
+                  "{currentItem.parentWord}" ({t("spell")})
+                </span>
+              )}
             </div>
+            <span style={{ fontSize: 13, fontWeight: 700, opacity: 0.9 }}>
+              {currentIdx + 1} / {queue.length}
+            </span>
+          </div>
+
+          {/* Current Video/Diagram Player */}
+          <div>
             <VideoPlayer
               videoUrl={currentItem?.videoUrl}
               title={currentItem?.label}
               caption={currentItem?.type === "letter" ? `"${currentItem.parentWord}" → "${currentItem.label}"` : null}
+              gestureEmoji={currentItem?.emoji}
+              gestureName={currentItem?.label}
+              targetSign={currentItem?.label}
             />
           </div>
 

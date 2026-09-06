@@ -19,13 +19,13 @@ export async function POST(request) {
     for (const word of words) {
       const sign = signMap.get(word);
       if (sign) {
-        result.push({ word, type: "direct", videoUrl: sign.videoUrl });
+        result.push({ word, type: "direct", videoUrl: sign.videoUrl, emoji: sign.emoji || "🤟" });
       } else {
         // Letter-by-letter fallback
         const letters = [...word]; // Unicode-safe split
         const letterVideos = letters.map((ch) => {
           const s = signMap.get(ch);
-          return { char: ch, videoUrl: s?.videoUrl || null };
+          return { char: ch, videoUrl: s?.videoUrl || null, emoji: s?.emoji || "🔤" };
         });
         result.push({ word, type: "spelled", letters: letterVideos });
       }

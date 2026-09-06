@@ -7,6 +7,7 @@ import { getReportCard } from "@/lib/localStorage";
 import Navbar from "@/components/Navbar";
 import ReportCard from "@/components/ReportCard";
 import ProgressBar from "@/components/ProgressBar";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 export default function TeacherDashboard() {
@@ -55,10 +56,43 @@ export default function TeacherDashboard() {
     <div className="page-bg" style={{ minHeight: "100vh" }}>
       <Navbar />
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 24px" }}>
+        {/* Back Navigation Bar */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+          <button
+            onClick={() => {
+              if (typeof window !== "undefined" && window.history.length > 1) {
+                router.back();
+              } else {
+                router.push("/");
+              }
+            }}
+            className="btn btn-secondary"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "8px 16px",
+              borderRadius: "var(--radius-full)",
+              fontSize: 13,
+              fontWeight: 700,
+              height: 40,
+            }}
+            aria-label={tCommon("back")}
+          >
+            <span style={{ fontSize: 16 }}>←</span>
+            <span>{tCommon("back")}</span>
+          </button>
+          <span style={{ color: "var(--text-muted)", fontSize: 13, fontWeight: 600 }}>
+            <Link href="/" style={{ color: "var(--primary)", textDecoration: "none" }}>{tNav("home")}</Link>
+            {" › "}
+            <span style={{ color: "var(--text-secondary)" }}>{tRoles("teacher")} {tNav("dashboard")}</span>
+          </span>
+        </div>
+
         {/* Header */}
         <div style={{
-          background: "linear-gradient(135deg, var(--primary-50), rgba(27,42,107,0.04))",
-          border: "2px solid var(--border)",
+          background: "linear-gradient(135deg, #FFF5ED 0%, #FAF5FF 100%)",
+          border: "2px solid var(--peach-200)",
           borderRadius: "var(--radius-xl)",
           padding: "28px 32px",
           marginBottom: 28,
@@ -67,7 +101,7 @@ export default function TeacherDashboard() {
           justifyContent: "space-between",
           flexWrap: "wrap",
           gap: 20,
-          boxShadow: "var(--shadow-xs)",
+          boxShadow: "var(--shadow-sm)",
         }}>
           <div>
             <span style={{ fontSize: 13, fontWeight: 800, color: "var(--primary)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
@@ -75,10 +109,10 @@ export default function TeacherDashboard() {
             </span>
             <h1 className="font-display" style={{ fontSize: 32, fontWeight: 800, marginTop: 4, color: "var(--primary)" }}>{user.name}</h1>
             <p style={{ color: "var(--text-secondary)", fontWeight: 600, marginTop: 2 }}>
-              ધોરણ 1-A · {studentReports.length} {t("students")}
+              {t("classHeader")} · {studentReports.length} {t("students")}
             </p>
           </div>
-          <div style={{ display: "flex", gap: 20, background: "#FFFFFF", padding: "12px 24px", borderRadius: "var(--radius-lg)", border: "1.5px solid var(--border)" }}>
+          <div style={{ display: "flex", gap: 20, background: "#FFFFFF", padding: "12px 24px", borderRadius: "var(--radius-lg)", border: "1.5px solid var(--border)", boxShadow: "var(--shadow-xs)" }}>
             {[
               { label: t("students"), value: studentReports.length, color: "var(--primary)" },
               { label: t("classAvg"), value: `${classAvgScore}%`, color: "var(--accent-hover)" },
@@ -139,14 +173,14 @@ export default function TeacherDashboard() {
                   }}
                   onClick={() => setSelected(selected?.uid === student.uid ? null : { ...student, report })}
                   aria-expanded={selected?.uid === student.uid ? "true" : "false"}
-                  aria-label={`${student.name}, score ${avg}%, click to see full report`}
+                  aria-label={`${student.name}, ${avg}%, ${t("seeReportAria")}`}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                     <div style={{
                       width: 44,
                       height: 44,
                       borderRadius: "50%",
-                      background: "var(--primary)",
+                      background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",

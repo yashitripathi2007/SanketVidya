@@ -6,6 +6,7 @@ import { MOCK_USERS } from "@/lib/mockData";
 import { getReportCard } from "@/lib/localStorage";
 import Navbar from "@/components/Navbar";
 import ReportCard from "@/components/ReportCard";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 export default function ParentDashboard() {
@@ -16,6 +17,7 @@ export default function ParentDashboard() {
   const t = useTranslations("dashboard");
   const tRoles = useTranslations("roles");
   const tNav = useTranslations("nav");
+  const tCommon = useTranslations("common");
 
   useEffect(() => {
     if (!loading && !user) { router.replace("/login"); return; }
@@ -50,14 +52,47 @@ export default function ParentDashboard() {
     <div className="page-bg" style={{ minHeight: "100vh" }}>
       <Navbar />
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
+        {/* Back Navigation Bar */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+          <button
+            onClick={() => {
+              if (typeof window !== "undefined" && window.history.length > 1) {
+                router.back();
+              } else {
+                router.push("/");
+              }
+            }}
+            className="btn btn-secondary"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "8px 16px",
+              borderRadius: "var(--radius-full)",
+              fontSize: 13,
+              fontWeight: 700,
+              height: 40,
+            }}
+            aria-label={tCommon("back")}
+          >
+            <span style={{ fontSize: 16 }}>←</span>
+            <span>{tCommon("back")}</span>
+          </button>
+          <span style={{ color: "var(--text-muted)", fontSize: 13, fontWeight: 600 }}>
+            <Link href="/" style={{ color: "var(--primary)", textDecoration: "none" }}>{tNav("home")}</Link>
+            {" › "}
+            <span style={{ color: "var(--text-secondary)" }}>{tRoles("parent")} {tNav("dashboard")}</span>
+          </span>
+        </div>
+
         {/* Header */}
         <div style={{
-          background: "linear-gradient(135deg, var(--primary-50), rgba(27,42,107,0.04))",
-          border: "2px solid var(--border)",
+          background: "linear-gradient(135deg, #FFF5ED 0%, #FAF5FF 100%)",
+          border: "2px solid var(--peach-200)",
           borderRadius: "var(--radius-xl)",
           padding: "28px 32px",
           marginBottom: 28,
-          boxShadow: "var(--shadow-xs)",
+          boxShadow: "var(--shadow-sm)",
         }}>
           <span style={{ fontSize: 13, fontWeight: 800, color: "var(--primary)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
             👨‍👩‍👧 {tRoles("parent")} {tNav("dashboard")}
@@ -79,13 +114,14 @@ export default function ParentDashboard() {
                   onClick={() => setActiveChildId(child.uid)}
                   className="btn"
                   style={{
-                    background: isActive ? "var(--primary-50)" : "var(--bg-card)",
+                    background: isActive ? "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)" : "#FFFFFF",
                     border: `2px solid ${isActive ? "var(--primary)" : "var(--border)"}`,
-                    color: "var(--primary)",
+                    color: isActive ? "#FFFFFF" : "var(--text-primary)",
                     fontSize: 14,
                     fontWeight: 700,
                     height: 48, // minimum 44px
-                    padding: "0 20px"
+                    padding: "0 20px",
+                    boxShadow: isActive ? "var(--shadow-purple)" : "var(--shadow-xs)",
                   }}
                   aria-current={isActive ? "true" : "false"}
                 >

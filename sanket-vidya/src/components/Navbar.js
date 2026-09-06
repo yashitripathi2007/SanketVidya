@@ -36,10 +36,10 @@ export default function Navbar() {
       position: "sticky",
       top: 0,
       zIndex: 100,
-      background: "var(--primary)",
-      borderBottom: "2px solid rgba(255,255,255,0.1)",
+      background: "var(--nav-bg)",
+      borderBottom: "2px solid rgba(255,255,255,0.15)",
       padding: "0 24px",
-      boxShadow: "var(--shadow-sm)",
+      boxShadow: "var(--shadow-md)",
     }}>
       <div style={{
         maxWidth: 1200,
@@ -50,26 +50,61 @@ export default function Navbar() {
         justifyContent: "space-between",
         gap: 16,
       }}>
-        {/* Logo */}
-        <Link href={dashboardHref} style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-          textDecoration: "none",
-          flexShrink: 0,
-        }}
-        aria-label={t("home")}
-        >
-          <span style={{ fontSize: 32 }} role="img" aria-label="Sign Language Symbol">🤟</span>
-          <span className="font-display" style={{
-            fontWeight: 800,
-            fontSize: 24,
-            color: "#FFFFFF",
-            letterSpacing: "0.02em",
-          }}>
-            {t("brand")}
-          </span>
-        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          {/* Global Back to Previous Page Button */}
+          {pathname !== "/" && (
+            <button
+              onClick={() => {
+                if (typeof window !== "undefined" && window.history.length > 1) {
+                  router.back();
+                } else {
+                  router.push(dashboardHref || "/");
+                }
+              }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "6px 14px",
+                borderRadius: "var(--radius-full)",
+                background: "rgba(255,255,255,0.18)",
+                border: "1px solid rgba(255,255,255,0.35)",
+                color: "#FFFFFF",
+                fontSize: 13,
+                fontWeight: 700,
+                cursor: "pointer",
+                transition: "all var(--transition)",
+                minHeight: 38,
+              }}
+              title={t("back")}
+              aria-label={t("back")}
+            >
+              <span style={{ fontSize: 15 }}>←</span>
+              <span>{t("back")}</span>
+            </button>
+          )}
+
+          {/* Logo */}
+          <Link href={dashboardHref} style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            textDecoration: "none",
+            flexShrink: 0,
+          }}
+          aria-label={t("home")}
+          >
+            <span style={{ fontSize: 30 }} role="img" aria-label="Sign Language Symbol">🤟</span>
+            <span className="font-display" style={{
+              fontWeight: 800,
+              fontSize: 22,
+              color: "#FFFFFF",
+              letterSpacing: "0.02em",
+            }}>
+              {t("brand")}
+            </span>
+          </Link>
+        </div>
 
         {/* Module Nav (students only) */}
         {user?.role === "student" && (
@@ -90,9 +125,10 @@ export default function Navbar() {
                     fontSize: 14,
                     fontWeight: 600,
                     whiteSpace: "nowrap",
-                    background: isActive ? "rgba(255,255,255,0.15)" : "transparent",
+                    background: isActive ? "rgba(255,255,255,0.22)" : "transparent",
                     color: "#FFFFFF",
-                    border: isActive ? "1px solid rgba(255,255,255,0.3)" : "1px solid transparent",
+                    border: isActive ? "1px solid rgba(255,255,255,0.4)" : "1px solid transparent",
+                    boxShadow: isActive ? "0 2px 8px rgba(0,0,0,0.15)" : "none",
                     transition: "all var(--transition)",
                     minHeight: 44,
                   }}
@@ -114,15 +150,39 @@ export default function Navbar() {
                 fontSize: 14,
                 fontWeight: 600,
                 whiteSpace: "nowrap",
-                background: pathname.includes("/converter") ? "rgba(255,255,255,0.15)" : "transparent",
+                background: pathname.includes("/converter") ? "rgba(255,255,255,0.22)" : "transparent",
                 color: "#FFFFFF",
-                border: pathname.includes("/converter") ? "1px solid rgba(255,255,255,0.3)" : "1px solid transparent",
+                border: pathname.includes("/converter") ? "1px solid rgba(255,255,255,0.4)" : "1px solid transparent",
+                boxShadow: pathname.includes("/converter") ? "0 2px 8px rgba(0,0,0,0.15)" : "none",
                 transition: "all var(--transition)",
                 minHeight: 44,
               }}
             >
               <span role="img" aria-hidden="true">🔄</span>
               <span>{t("converter")}</span>
+            </Link>
+            <Link
+              href="/camera"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "8px 16px",
+                borderRadius: "var(--radius-full)",
+                textDecoration: "none",
+                fontSize: 14,
+                fontWeight: 700,
+                whiteSpace: "nowrap",
+                background: pathname.includes("/camera") ? "linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%)" : "rgba(249, 115, 22, 0.25)",
+                color: "#FFFFFF",
+                border: pathname.includes("/camera") ? "1px solid rgba(255,255,255,0.5)" : "1px solid rgba(249, 115, 22, 0.5)",
+                boxShadow: pathname.includes("/camera") ? "0 2px 12px rgba(249,115,22,0.4)" : "none",
+                transition: "all var(--transition)",
+                minHeight: 44,
+              }}
+            >
+              <span role="img" aria-hidden="true">📷</span>
+              <span>{t("camera")}</span>
             </Link>
           </div>
         )}
@@ -169,17 +229,18 @@ export default function Navbar() {
                 style={{ 
                   padding: "0 12px", 
                   color: "#FFFFFF", 
-                  fontSize: 20, 
+                  fontSize: 18, 
                   height: 44, 
                   minWidth: 44,
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center"
+                  justifyContent: "center",
+                  gap: 4,
                 }}
                 title={t("logout")}
                 aria-label={t("logout")}
               >
-                ↩
+                <span style={{ fontSize: 18 }}>🚪</span>
               </button>
             </>
           )}

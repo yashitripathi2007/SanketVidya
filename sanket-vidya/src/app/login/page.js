@@ -12,6 +12,7 @@ export default function LoginPage() {
   const t = useTranslations("login");
   const tNav = useTranslations("nav");
   const tRoles = useTranslations("roles");
+  const tCommon = useTranslations("common");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +25,7 @@ export default function LoginPage() {
       label: tRoles("student"),
       emoji: "🎒",
       email: "student@demo.com",
-      color: "var(--primary)",
+      color: "var(--primary-light)",
       bg: "var(--primary-50)",
       desc: t("studentDesc"),
     },
@@ -34,7 +35,7 @@ export default function LoginPage() {
       emoji: "📚",
       email: "teacher@demo.com",
       color: "var(--accent-hover)",
-      bg: "var(--accent-light)",
+      bg: "var(--peach-100)",
       desc: t("teacherDesc"),
     },
     {
@@ -42,8 +43,8 @@ export default function LoginPage() {
       label: tRoles("parent"),
       emoji: "👨‍👩‍👧",
       email: "parent@demo.com",
-      color: "var(--success-dark)",
-      bg: "var(--success-light)",
+      color: "var(--pink-600)",
+      bg: "var(--pink-50)",
       desc: t("parentDesc"),
     },
   ];
@@ -92,13 +93,39 @@ export default function LoginPage() {
         margin: "0 auto",
         width: "100%",
       }}>
-        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 28 }} role="img" aria-label="Sign Language Symbol">🤟</span>
-          <span className="font-display" style={{ fontSize: 22, fontWeight: 800, color: "var(--primary)" }}>
-            {tNav("brand")}
-          </span>
-        </Link>
-        <LanguageSwitcher />
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <button
+            onClick={() => {
+              if (typeof window !== "undefined" && window.history.length > 1) {
+                router.back();
+              } else {
+                router.push("/");
+              }
+            }}
+            className="btn btn-secondary"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "6px 14px",
+              borderRadius: "var(--radius-full)",
+              fontSize: 13,
+              fontWeight: 700,
+              height: 38,
+            }}
+            aria-label={tCommon("back")}
+          >
+            <span style={{ fontSize: 16 }}>←</span>
+            <span>{tCommon("back")}</span>
+          </button>
+          <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontSize: 30 }} role="img" aria-label="Sign Language Symbol">🤟</span>
+            <span className="font-display" style={{ fontSize: 24, fontWeight: 800, color: "var(--primary)" }}>
+              {tNav("brand")}
+            </span>
+          </Link>
+        </div>
+        <LanguageSwitcher theme="light" />
       </header>
 
       <div style={{ width: "100%", maxWidth: 440, padding: "20px 24px", marginTop: 20 }}>

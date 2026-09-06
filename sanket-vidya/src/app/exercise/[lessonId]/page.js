@@ -80,7 +80,43 @@ export default function ExercisePage() {
   return (
     <div className="page-bg" style={{ minHeight: "100vh" }}>
       <Navbar />
-      <div style={{ maxWidth: 640, margin: "0 auto", padding: "32px 24px" }}>
+      <div style={{ maxWidth: 640, margin: "0 auto", padding: "24px 24px" }}>
+        {/* Back Navigation Bar */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+          <button
+            onClick={() => {
+              if (typeof window !== "undefined" && window.history.length > 1) {
+                router.back();
+              } else {
+                router.push(lesson ? `/learn/${lesson.module}` : "/dashboard/student");
+              }
+            }}
+            className="btn btn-secondary"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "6px 14px",
+              borderRadius: "var(--radius-full)",
+              fontSize: 13,
+              fontWeight: 700,
+              height: 38,
+            }}
+            aria-label={tCommon("back")}
+          >
+            <span style={{ fontSize: 16 }}>←</span>
+            <span>{tCommon("back")}</span>
+          </button>
+          {lesson && (
+            <span style={{ color: "var(--text-muted)", fontSize: 13, fontWeight: 600 }}>
+              <Link href={`/learn/${lesson.module}`} style={{ color: "var(--primary)", textDecoration: "none" }}>
+                {tNav(lesson.module)}
+              </Link>
+              {" › "}
+              <span style={{ color: "var(--text-secondary)" }}>{lesson.title}</span>
+            </span>
+          )}
+        </div>
 
         {!done ? (
           <>
